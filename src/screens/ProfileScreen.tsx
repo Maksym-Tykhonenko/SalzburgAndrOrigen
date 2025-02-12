@@ -85,8 +85,7 @@ const ProfileScreen = () => {
       <Header />
       <ScrollView style={styles.container}>
         <View style={styles.headerContainer}>
-          <TouchableOpacity //onPress={() => setIsEditing(!isEditing)}
-          >
+          <TouchableOpacity onPress={() => setIsEditing(!isEditing)}>
             <View style={styles.editIconContainer}>
               <Edit color="#FF0000" size={24} />
             </View>
@@ -100,8 +99,7 @@ const ProfileScreen = () => {
             />
             <TouchableOpacity
               style={styles.cameraButton}
-              //onPress={handleChangeAvatar}
-            >
+              onPress={handleChangeAvatar}>
               <Camera color="#FFF" size={16} />
             </TouchableOpacity>
           </View>
@@ -127,7 +125,7 @@ const ProfileScreen = () => {
               />
               <Button
                 mode="contained"
-                //onPress={handleSaveProfile}
+                onPress={handleSaveProfile}
                 style={styles.saveButton}>
                 Save Changes
               </Button>
@@ -174,16 +172,16 @@ const ProfileScreen = () => {
 
         <Button
           mode="outlined"
-          //onPress={async () => {
-          //  setProfile({
-          //    name: 'none',
-          //    lastName: 'none',
-          //    notifications: true,
-          //    darkMode: false,
-          //    avatarUri: '',
-          //  });
-          //  await AsyncStorage.removeItem('userProfile');
-          //}}
+          onPress={async () => {
+            setProfile({
+              name: 'none',
+              lastName: 'none',
+              notifications: true,
+              darkMode: false,
+              avatarUri: '',
+            });
+            await AsyncStorage.removeItem('userProfile');
+          }}
           icon={() => <LogOut color="#E74C3C" size={24} />}
           style={styles.logoutButton}
           labelStyle={styles.logoutText}>
