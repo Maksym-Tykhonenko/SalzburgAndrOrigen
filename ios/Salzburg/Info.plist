@@ -33,6 +33,8 @@
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app uses the camera to take a user avatar and photo to store in app private internal data set.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>The app wants to access the gallery to upload a photo</string>
 	<key>UIAppFonts</key>
