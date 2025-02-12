@@ -86,7 +86,8 @@ export default function AlbumScreen() {
           style={styles.photoList}
           showsHorizontalScrollIndicator={false}
         />
-        <TouchableOpacity style={styles.button} onPress={() => addPhotoToAlbum(item.id)}>
+        <TouchableOpacity style={styles.button} //onPress={() => addPhotoToAlbum(item.id)}
+        >
           <Text style={styles.buttonText}>Add Photo</Text>
         </TouchableOpacity>
       </View>
@@ -104,7 +105,8 @@ export default function AlbumScreen() {
           placeholder="New album name"
           placeholderTextColor="#999"
         />
-        <TouchableOpacity style={styles.addButton} onPress={addAlbum}>
+        <TouchableOpacity style={styles.addButton} //onPress={addAlbum}
+        >
           <Text style={styles.addButtonText}>Add</Text>
         </TouchableOpacity>
       </View>

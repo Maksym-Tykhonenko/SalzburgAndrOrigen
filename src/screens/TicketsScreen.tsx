@@ -151,7 +151,8 @@ const TicketsScreen = () => {
                 mode="contained"
                 style={styles.button}
                 labelStyle={styles.buttonLabel}
-                onPress={() => handleBookTicket(ticket)}>
+              //onPress={() => handleBookTicket(ticket)}
+              >
                 Book Ticket
               </Button>
             </Card.Content>
@@ -215,22 +216,22 @@ const TicketsScreen = () => {
                   <View style={styles.modalButtonContainer}>
                     <Button
                       mode="outlined"
-                      onPress={() => {
-                        setIsModalVisible(false);
-                        setPaymentDetails({
-                          cardNumber: '',
-                          cardName: '',
-                          expiryDate: '',
-                          price: '',
-                        });
-                      }}
+                      //onPress={() => {
+                      //  setIsModalVisible(false);
+                      //  setPaymentDetails({
+                      //    cardNumber: '',
+                      //    cardName: '',
+                      //    expiryDate: '',
+                      //    price: '',
+                      //  });
+                      //}}
                       style={styles.cancelButton}
                       labelStyle={styles.cancelButtonLabel}>
                       Cancel
                     </Button>
                     <Button
                       mode="contained"
-                      onPress={processBooking}
+                      //onPress={processBooking}
                       style={styles.payButton}
                       labelStyle={styles.payButtonLabel}>
                       Submit Booking

@@ -57,6 +57,7 @@ const TabNavigator = () => {
           ),
         }}
       />
+      {/** */}
       <Tab.Screen
         name="Recommendations"
         component={RecommendationsScreen}
