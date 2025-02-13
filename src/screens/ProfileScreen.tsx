@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   ScrollView,
@@ -15,13 +15,11 @@ import {
   Switch,
 } from 'react-native-paper';
 import {Edit, User, Settings, LogOut, Camera} from 'lucide-react-native';
-import Header from '../components/Header';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-const ProfileScreen = () => {
+export const ProfileScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
-
   const [profile, setProfile] = useState({
     name: 'none',
     lastName: 'none',
@@ -30,7 +28,7 @@ const ProfileScreen = () => {
     avatarUri: '',
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     (async () => {
       try {
         const storedProfile = await AsyncStorage.getItem('userProfile');
@@ -38,23 +36,21 @@ const ProfileScreen = () => {
           setProfile(JSON.parse(storedProfile));
         }
       } catch (error) {
-        console.log('Помилка завантаження профілю з AsyncStorage:', error);
+        console.log('Error loading profile from AsyncStorage:', error);
       }
     })();
   }, []);
 
-  // Змінити аватар
+  // Зміна аватару
   const handleChangeAvatar = async () => {
     try {
       const result = await launchImageLibrary({
         mediaType: 'photo',
       });
 
-      if (result.didCancel) {
-        return;
-      }
+      if (result.didCancel) return;
       if (result.errorCode) {
-        Alert.alert('Помилка', result.errorMessage || 'Невідома помилка');
+        Alert.alert('Error', result.errorMessage || 'Unknown error');
         return;
       }
 
@@ -64,7 +60,7 @@ const ProfileScreen = () => {
         setProfile((prev: any) => ({...prev, avatarUri: photoUri}));
       }
     } catch (error) {
-      Alert.alert('Помилка', 'Виникла помилка при виборі фото');
+      Alert.alert('Error', 'An error occurred while selecting the photo');
       console.log('ImagePicker error: ', error);
     }
   };
@@ -73,55 +69,71 @@ const ProfileScreen = () => {
     try {
       setIsEditing(false);
       await AsyncStorage.setItem('userProfile', JSON.stringify(profile));
-      Alert.alert('Успіх', 'Зміни збережено!');
+      Alert.alert('Success', 'Profile saved!');
     } catch (error) {
-      Alert.alert('Помилка', 'Не вдалося зберегти дані');
-      console.log('Помилка збереження у AsyncStorage:', error);
+      Alert.alert('Error', 'Failed to save profile');
+      console.log('Error saving to AsyncStorage:', error);
     }
   };
 
+  const handleResetProfile = async () => {
+    const defaultProfile = {
+      name: 'none',
+      lastName: 'none',
+      notifications: true,
+      darkMode: false,
+      avatarUri: '',
+    };
+    setProfile(defaultProfile);
+    await AsyncStorage.removeItem('userProfile');
+  };
+
   return (
-    <>
-      <Header />
-      <ScrollView style={styles.container}>
-        <View style={styles.headerContainer}>
-          <TouchableOpacity onPress={() => setIsEditing(!isEditing)}>
-            <View style={styles.editIconContainer}>
-              <Edit color="#FF0000" size={24} />
-            </View>
+    <ScrollView style={styles.container}>
+      <View style={styles.header}>
+        <TouchableOpacity
+          style={styles.editButton}
+          onPress={() => setIsEditing(!isEditing)}>
+          <Edit color="#fff" size={20} />
+        </TouchableOpacity>
+        <View style={styles.avatarContainer}>
+          <Avatar.Image
+            size={120}
+            source={profile.avatarUri ? {uri: profile.avatarUri} : {uri: ''}}
+            style={styles.avatar}
+          />
+          <TouchableOpacity
+            style={styles.cameraButton}
+            onPress={handleChangeAvatar}>
+            <Camera color="#fff" size={16} />
           </TouchableOpacity>
-
-          <View style={styles.avatarWrapper}>
-            <Avatar.Image
-              size={120}
-              source={profile.avatarUri ? {uri: profile.avatarUri} : undefined}
-              style={styles.avatar}
-            />
-            <TouchableOpacity
-              style={styles.cameraButton}
-              onPress={handleChangeAvatar}>
-              <Camera color="#FFF" size={16} />
-            </TouchableOpacity>
-          </View>
-
-          <Text style={styles.nameTitle}>{profile.name}</Text>
         </View>
+        <Text style={styles.nameText}>
+          {profile.name} {profile.lastName}
+        </Text>
+      </View>
 
-        {/* Картка профілю */}
-        <Card style={styles.card}>
+      {/* Картка з даними профілю */}
+      <Card style={styles.card}>
+        <Card.Title title="Profile Details" titleStyle={styles.cardTitle} />
+        <Card.Content>
           {isEditing ? (
             <>
               <TextInput
-                label="Name"
+                label="First Name"
                 value={profile.name}
                 onChangeText={text => setProfile({...profile, name: text})}
                 style={styles.input}
+                mode="outlined"
+                theme={{colors: {primary: '#FF0000'}}}
               />
               <TextInput
-                label="lastName"
+                label="Last Name"
                 value={profile.lastName}
                 onChangeText={text => setProfile({...profile, lastName: text})}
                 style={styles.input}
+                mode="outlined"
+                theme={{colors: {primary: '#FF0000'}}}
               />
               <Button
                 mode="contained"
@@ -131,22 +143,18 @@ const ProfileScreen = () => {
               </Button>
             </>
           ) : (
-            <>
-              <View style={styles.profileRow}>
-                <User color="#FF0000" size={24} />
-                <Text style={styles.profileText}>{profile.name}</Text>
-              </View>
-              <View style={styles.profileRow}>
-                <User color="#FF0000" size={24} />
-                <Text style={styles.profileText}>{profile.lastName}</Text>
-              </View>
-            </>
+            <View style={styles.detailRow}>
+              <User color="#FF0000" size={24} />
+              <Text style={styles.detailText}>{profile.name}</Text>
+            </View>
           )}
-        </Card>
+        </Card.Content>
+      </Card>
 
-        {/* Картка налаштувань */}
-        <Card style={styles.card}>
-          <Text style={styles.sectionTitle}>Settings</Text>
+      {/* Картка налаштувань */}
+      <Card style={styles.card}>
+        <Card.Title title="Settings" titleStyle={styles.cardTitle} />
+        <Card.Content>
           <View style={styles.settingRow}>
             <Settings color="#FF0000" size={24} />
             <Text style={styles.settingText}>Notifications</Text>
@@ -155,136 +163,119 @@ const ProfileScreen = () => {
               onValueChange={value =>
                 setProfile({...profile, notifications: value})
               }
+              color="#FF0000"
             />
           </View>
-          {/* Якщо потрібен Dark Mode, розкоментуйте блок нижче */}
-          {/* <View style={styles.settingRow}>
-            <Settings color="#FF0000" size={24} />
-            <Text style={styles.settingText}>Dark Mode</Text>
-            <Switch
-              value={profile.darkMode}
-              onValueChange={value =>
-                setProfile({ ...profile, darkMode: value })
-              }
-            />
-          </View> */}
-        </Card>
+        </Card.Content>
+      </Card>
 
-        <Button
-          mode="outlined"
-          onPress={async () => {
-            setProfile({
-              name: 'none',
-              lastName: 'none',
-              notifications: true,
-              darkMode: false,
-              avatarUri: '',
-            });
-            await AsyncStorage.removeItem('userProfile');
-          }}
-          icon={() => <LogOut color="#E74C3C" size={24} />}
-          style={styles.logoutButton}
-          labelStyle={styles.logoutText}>
-          Reset
-        </Button>
-      </ScrollView>
-    </>
+      {/* Кнопка скидання профілю */}
+      <Button
+        mode="outlined"
+        onPress={handleResetProfile}
+        icon={() => <LogOut color="#FF0000" size={24} />}
+        style={styles.logoutButton}
+        labelStyle={styles.logoutText}>
+        Reset Profile
+      </Button>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Білий фон
-    padding: 16,
+    paddingTop: 40,
+    backgroundColor: '#fff',
   },
-  headerContainer: {
+  header: {
+    backgroundColor: '#FF0000',
+    paddingVertical: 30,
+    paddingHorizontal: 20,
     alignItems: 'center',
-    marginBottom: 20,
-  },
-  editIconContainer: {
-    marginBottom: 20,
-  },
-  avatarWrapper: {
     position: 'relative',
+  },
+  editButton: {
+    position: 'absolute',
+    top: 10,
+    right: 20,
+  },
+  avatarContainer: {
+    marginTop: 20,
     marginBottom: 10,
   },
   avatar: {
-    // Додаткові налаштування для аватару (за бажанням)
+    borderWidth: 3,
+    borderColor: '#fff',
   },
   cameraButton: {
     position: 'absolute',
     bottom: 0,
-    right: 0,
-    backgroundColor: '#FF0000', // Червоний фон для кнопки зміни аватару
+    right: 10,
+    backgroundColor: '#FF0000',
     borderRadius: 20,
     padding: 6,
+    borderWidth: 2,
+    borderColor: '#fff',
   },
-  nameTitle: {
+  nameText: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FF0000', // Червоний колір для імені
+    color: '#fff',
+    marginTop: 10,
   },
   card: {
-    marginBottom: 16,
-    padding: 16,
+    margin: 16,
     borderRadius: 10,
-    backgroundColor: '#FFFFFF', // Білий фон для картки
+    borderColor: '#FF0000',
+    borderWidth: 1,
+    backgroundColor: '#fff',
     shadowColor: '#000',
-    shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.1,
-    elevation: 3,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  profileRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  profileText: {
-    marginLeft: 10,
-    fontSize: 16,
-    color: '#FF0000', // Червоний текст для профілю
+  cardTitle: {
+    color: '#FF0000',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
   input: {
-    marginBottom: 10,
-    backgroundColor: '#FFFFFF', // Білий фон для інпутів
-    borderColor: '#FF0000', // Червона рамка
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
+    marginBottom: 12,
+    backgroundColor: '#fff',
   },
   saveButton: {
+    backgroundColor: '#FF0000',
     marginTop: 10,
-    backgroundColor: '#FF0000', // Червона кнопка "Зберегти"
-    borderRadius: 5,
-    padding: 10,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#FF0000', // Червоний заголовок для розділів
+  detailRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  detailText: {
+    fontSize: 16,
+    marginLeft: 8,
+    color: '#333',
   },
   settingRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 10,
+    marginVertical: 8,
   },
   settingText: {
     flex: 1,
-    marginLeft: 10,
     fontSize: 16,
+    marginLeft: 12,
     color: '#333',
   },
   logoutButton: {
-    borderColor: '#E74C3C',
-    marginTop: 20,
-    borderWidth: 1,
+    marginHorizontal: 16,
+    marginVertical: 20,
+    borderColor: '#FF0000',
   },
   logoutText: {
-    color: '#E74C3C',
+    color: '#FF0000',
   },
 });
-
-export default ProfileScreen;

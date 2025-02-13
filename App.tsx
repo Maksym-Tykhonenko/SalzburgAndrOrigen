@@ -12,7 +12,7 @@ import EventsScreen from './src/screens/EventsScreen';
 import TicketsScreen from './src/screens/TicketsScreen';
 import RecommendationsScreen from './src/screens/RecommendationsScreen';
 import RemindersScreen from './src/screens/RemindersScreen';
-import ProfileScreen from './src/screens/ProfileScreen';
+import {ProfileScreen} from './src/screens/ProfileScreen';
 import AlbumScreen from './src/screens/AlbumScreen';
 
 // Додаткові (звичайні) сторінки
@@ -56,8 +56,13 @@ const TabNavigator = () => {
             <Icon source="ticket" color={color} size={size} />
           ),
         }}
+        listeners={({navigation}) => ({
+    tabPress: (e) => {
+      e.preventDefault(); // Блокуємо перехід на вкладку
+      console.log('Album tab is disabled');
+    },
+  })}
       />
-      {/** */}
       <Tab.Screen
         name="Recommendations"
         component={RecommendationsScreen}
@@ -66,6 +71,12 @@ const TabNavigator = () => {
             <Icon source="thumb-up" color={color} size={size} />
           ),
         }}
+        listeners={({navigation}) => ({
+    tabPress: (e) => {
+      e.preventDefault(); // Блокуємо перехід на вкладку
+      console.log('Album tab is disabled');
+    },
+  })}
       />
       <Tab.Screen
         name="Album"
@@ -75,6 +86,12 @@ const TabNavigator = () => {
             <Icon source="camera-burst" color={color} size={size} />
           ),
         }}
+        listeners={({navigation}) => ({
+    tabPress: (e) => {
+      e.preventDefault(); // Блокуємо перехід на вкладку
+      console.log('Album tab is disabled');
+    },
+  })}
       />
       <Tab.Screen
         name="Profile"
