@@ -56,12 +56,7 @@ const TabNavigator = () => {
             <Icon source="ticket" color={color} size={size} />
           ),
         }}
-        listeners={({navigation}) => ({
-    tabPress: (e) => {
-      e.preventDefault(); // Блокуємо перехід на вкладку
-      console.log('Album tab is disabled');
-    },
-  })}
+        
       />
       <Tab.Screen
         name="Recommendations"
@@ -71,12 +66,6 @@ const TabNavigator = () => {
             <Icon source="thumb-up" color={color} size={size} />
           ),
         }}
-        listeners={({navigation}) => ({
-    tabPress: (e) => {
-      e.preventDefault(); // Блокуємо перехід на вкладку
-      console.log('Album tab is disabled');
-    },
-  })}
       />
       <Tab.Screen
         name="Album"
@@ -86,12 +75,6 @@ const TabNavigator = () => {
             <Icon source="camera-burst" color={color} size={size} />
           ),
         }}
-        listeners={({navigation}) => ({
-    tabPress: (e) => {
-      e.preventDefault(); // Блокуємо перехід на вкладку
-      console.log('Album tab is disabled');
-    },
-  })}
       />
       <Tab.Screen
         name="Profile"
