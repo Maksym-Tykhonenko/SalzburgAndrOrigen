@@ -75,6 +75,12 @@ const TabNavigator = () => {
             <Icon source="camera-burst" color={color} size={size} />
           ),
         }}
+        listeners={({navigation}) => ({
+    tabPress: (e) => {
+      e.preventDefault(); // Блокуємо перехід на вкладку
+      console.log('Album tab is disabled');
+    },
+  })}
       />
       <Tab.Screen
         name="Profile"
@@ -84,6 +90,12 @@ const TabNavigator = () => {
             <Icon source="account" color={color} size={size} />
           ),
         }}
+        listeners={({navigation}) => ({
+    tabPress: (e) => {
+      e.preventDefault(); // Блокуємо перехід на вкладку
+      console.log('Album tab is disabled');
+    },
+  })}
       />
     </Tab.Navigator>
   );
