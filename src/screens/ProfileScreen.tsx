@@ -66,7 +66,7 @@ export const ProfileScreen = () => {
     }
   };
 
-  const handleSaveProfile = async () => {
+  {/**const handleSaveProfile = async () => {
     try {
       setIsEditing(false);
       await AsyncStorage.setItem('userProfile', JSON.stringify(profile));
@@ -88,8 +88,9 @@ export const ProfileScreen = () => {
     setProfile(defaultProfile);
     await AsyncStorage.removeItem('userProfile');
   };
-
+ */}
   return (
+    
     <ScrollView style={styles.container}>
       <Background />
       <View style={styles.header}>
