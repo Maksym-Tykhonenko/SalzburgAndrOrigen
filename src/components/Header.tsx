@@ -27,7 +27,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginTop: 20,
     paddingVertical: 20,
-    backgroundColor: '#FFFFFF', // Білий фон
     borderBottomWidth: 1,
     borderBottomColor: '#FF0000', // Червона лінія
   },

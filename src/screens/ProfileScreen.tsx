@@ -17,6 +17,7 @@ import {
 import {Edit, User, Settings, LogOut, Camera} from 'lucide-react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {Background} from '../components/background';
 
 export const ProfileScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
@@ -90,6 +91,7 @@ export const ProfileScreen = () => {
 
   return (
     <ScrollView style={styles.container}>
+      <Background />
       <View style={styles.header}>
         <TouchableOpacity
           style={styles.editButton}
@@ -128,7 +130,7 @@ export const ProfileScreen = () => {
                 theme={{colors: {primary: '#FF0000'}}}
               />
               <TextInput
-                label="Last Name"
+                label="Nickname"
                 value={profile.lastName}
                 onChangeText={text => setProfile({...profile, lastName: text})}
                 style={styles.input}
@@ -186,7 +188,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingTop: 40,
-    backgroundColor: '#fff',
   },
   header: {
     backgroundColor: '#FF0000',

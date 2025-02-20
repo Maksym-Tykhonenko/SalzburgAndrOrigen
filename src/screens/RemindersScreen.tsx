@@ -2,6 +2,7 @@ import React from 'react';
 import {View, StyleSheet} from 'react-native';
 import {List, Switch, Text, Divider} from 'react-native-paper';
 import {Bell, Calendar, Music, AlertCircle} from 'lucide-react-native';
+import { Background } from '../components/background';
 
 const RemindersScreen = () => {
   const [switchStates, setSwitchStates] = React.useState({
@@ -26,6 +27,7 @@ const RemindersScreen = () => {
 
   return (
     <View style={styles.container}>
+      <Background />
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Reminders</Text>
         <Bell color={reminderStyles.iconColor} size={24} />
@@ -119,7 +121,6 @@ const RemindersScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF', // Білий фон
     paddingTop: 50,
   },
   header: {

@@ -14,6 +14,7 @@ import {
 import { launchImageLibrary } from 'react-native-image-picker';
 
 import Header from '../components/Header';
+import { Background } from '../components/background';
 
 export default function AlbumScreen() {
   const [albums, setAlbums] = useState([
@@ -95,6 +96,7 @@ export default function AlbumScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
+      <Background />
       <Header />
       <View style={styles.addAlbumContainer}>
         <TextInput
@@ -121,7 +123,6 @@ export default function AlbumScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     paddingHorizontal: 20,
     paddingTop: 20,
   },

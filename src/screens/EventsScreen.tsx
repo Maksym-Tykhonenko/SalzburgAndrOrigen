@@ -12,6 +12,7 @@ import {Text, Card, Title, Button, Chip, TextInput} from 'react-native-paper';
 import {Calendar, Clock, Plus, Search} from 'lucide-react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import Header from '../components/Header';
+import {Background} from '../components/background';
 
 const EventsScreen = () => {
   const [events, setEvents] = useState([
@@ -113,6 +114,7 @@ const EventsScreen = () => {
 
   return (
     <>
+      <Background />
       <Header />
       <ScrollView style={styles.container}>
         <View style={styles.headerContainer}>
@@ -338,7 +340,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#fff',
   },
   headerContainer: {
     marginBottom: 20,

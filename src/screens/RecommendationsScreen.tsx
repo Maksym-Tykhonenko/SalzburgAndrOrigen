@@ -11,6 +11,7 @@ import {
 import {Card, Title, Paragraph, Text, Button, FAB} from 'react-native-paper';
 import {Calendar, MapPin, Star, Heart, Share2, Info} from 'lucide-react-native';
 import Header from '../components/Header';
+import { Background } from '../components/background';
 
 const RecommendationsScreen = () => {
   const [favorites, setFavorites] = useState([]);
@@ -77,6 +78,7 @@ const RecommendationsScreen = () => {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <Background />
       <Header />
       <View style={styles.container}>
         <ScrollView contentContainerStyle={styles.scrollContent}>
@@ -206,11 +208,9 @@ const RecommendationsScreen = () => {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   container: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
   },
   scrollContent: {
     padding: 16,

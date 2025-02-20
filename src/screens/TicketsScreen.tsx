@@ -18,6 +18,7 @@ import {
 } from 'react-native-paper';
 import {Calendar, MapPin, Clock} from 'lucide-react-native';
 import Header from '../components/Header';
+import {Background} from '../components/background';
 
 const TicketsScreen = () => {
   const [selectedTicket, setSelectedTicket] = useState<any>(null);
@@ -101,7 +102,8 @@ const TicketsScreen = () => {
   ];
 
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
+    <SafeAreaView style={{flex: 1}}>
+      <Background />
       <Header />
       <ScrollView contentContainerStyle={styles.container}>
         {tickets.map(ticket => (
